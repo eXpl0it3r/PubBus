@@ -1,7 +1,7 @@
 PubBus
 ======
 
-**PubBus** is a simple implementation of a MessageBus.
+**PubBus** is a simple, header-only implementation of a MessageBus.
 
 Unit tests are written with the Catch test framework.
 
@@ -12,14 +12,14 @@ Example
 #include <PubBus/PubBus.hpp>
 #include <iostream>
 
-class DummyMessage : public Message
+class DummyMessage : public pub::Message
 {
 
 };
 
 int main()
 {
-	MessageBus bus;
+	pub::MessageBus bus;
 	DummyMessage msg;
 
 	bool called = false;

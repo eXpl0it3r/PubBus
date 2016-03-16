@@ -3,18 +3,21 @@
 #include <typeinfo>
 #include <typeindex>
 
-class Message
+namespace pub
 {
-public:
-	using Id = std::type_index;
+	class Message
+	{
+	public:
+		using Id = std::type_index;
 
-public:
+	public:
+		template<typename T>
+		static Id id();
+	};
+
 	template<typename T>
-	static Id id();
-};
-
-template<typename T>
-Message::Id Message::id()
-{
-	return std::type_index(typeid(T));
+	Message::Id Message::id()
+	{
+		return std::type_index(typeid(T));
+	}
 }

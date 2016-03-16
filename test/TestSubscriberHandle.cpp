@@ -5,15 +5,15 @@
 
 TEST_CASE("Constructing a SubscriberHandle sets the index and id", "[SubscriberHandle]")
 {
-	class DummyMessage : public Message
+	class DummyMessage : public pub::Message
 	{
 
 	};
 
-	Message::Id id = Message::id<DummyMessage>();
+	pub::Message::Id id = pub::Message::id<DummyMessage>();
 	std::size_t index = 10;
 
-	SubscriberHandle handle(id, index);
+	pub::SubscriberHandle handle(id, index);
 
 	REQUIRE(handle.id() == id);
 	REQUIRE(handle.index() == index);

@@ -3,21 +3,21 @@
 #include<PubBus/Message.hpp>
 #include<PubBus/MessageContainer.hpp>
 
-class DummyMessage : public Message
+class DummyMessage : public pub::Message
 {
 
 };
 
 TEST_CASE("Empty container has a size of zero", "[MessageContainer]")
 {
-	MessageContainer<DummyMessage> container;
+	pub::MessageContainer<DummyMessage> container;
 
 	REQUIRE(container.size() == 0);
 }
 
 TEST_CASE("Adding subscribers increases container size", "[MessageContainer]")
 {
-	MessageContainer<DummyMessage> container;
+	pub::MessageContainer<DummyMessage> container;
 
 	container.add([](DummyMessage){});
 	container.add([](DummyMessage){});
@@ -27,7 +27,7 @@ TEST_CASE("Adding subscribers increases container size", "[MessageContainer]")
 
 TEST_CASE("Removing a non existing index does nothing", "[MessageContainer]")
 {
-	MessageContainer<DummyMessage> container;
+	pub::MessageContainer<DummyMessage> container;
 
 	container.remove(10);
 
@@ -36,7 +36,7 @@ TEST_CASE("Removing a non existing index does nothing", "[MessageContainer]")
 
 TEST_CASE("Removing an existing index decreases the size", "[MessageContainer]")
 {
-	MessageContainer<DummyMessage> container;
+	pub::MessageContainer<DummyMessage> container;
 
 	std::size_t idx1 = container.add([](DummyMessage){});
 	std::size_t idx2 = container.add([](DummyMessage) {});
@@ -47,7 +47,7 @@ TEST_CASE("Removing an existing index decreases the size", "[MessageContainer]")
 
 TEST_CASE("Validating a non existing index returns false", "[MessageContainer]")
 {
-	MessageContainer<DummyMessage> container;
+	pub::MessageContainer<DummyMessage> container;
 
 	std::size_t idx = container.add([](DummyMessage) {});
 
@@ -56,7 +56,7 @@ TEST_CASE("Validating a non existing index returns false", "[MessageContainer]")
 
 TEST_CASE("Validating an existing index returns true", "[MessageContainer]")
 {
-	MessageContainer<DummyMessage> container;
+	pub::MessageContainer<DummyMessage> container;
 
 	std::size_t idx = container.add([](DummyMessage) {});
 
@@ -66,7 +66,7 @@ TEST_CASE("Validating an existing index returns true", "[MessageContainer]")
 TEST_CASE("Publishing a message calls the subscriber", "[MessageContainer]")
 {
 	bool called = false;
-	MessageContainer<DummyMessage> container;
+	pub::MessageContainer<DummyMessage> container;
 	DummyMessage msg;
 	container.add([&called](DummyMessage) { called = true; });
 
@@ -77,14 +77,14 @@ TEST_CASE("Publishing a message calls the subscriber", "[MessageContainer]")
 
 TEST_CASE("A subscriber can access a published message", "[MessageContainer]")
 {
-	class DummyMessageInteractive : public Message
+	class DummyMessageInteractive : public pub::Message
 	{
 	public:
 		int test = 0;
 	};
 
 	bool called = false;
-	MessageContainer<DummyMessageInteractive> container;
+	pub::MessageContainer<DummyMessageInteractive> container;
 	DummyMessageInteractive msg;
 	msg.test = 10;
 	container.add([&called](DummyMessageInteractive message) { called = (message.test == 10); });

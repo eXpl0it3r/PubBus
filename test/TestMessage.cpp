@@ -3,25 +3,25 @@
 
 TEST_CASE("Instances of the same Message type have the same ID", "[Message]")
 {
-	class DummyMessage : public Message
+	class DummyMessage : public pub::Message
 	{
 
 	};
 
-	REQUIRE(Message::id<DummyMessage>() == Message::id<DummyMessage>());
+	REQUIRE(pub::Message::id<DummyMessage>() == pub::Message::id<DummyMessage>());
 }
 
 TEST_CASE("Instances of different Message types have different IDs", "[Message]")
 {
-	class DummyMessageOne : public Message
+	class DummyMessageOne : public pub::Message
 	{
 
 	};
 
-	class DummyMessageTwo : public Message
+	class DummyMessageTwo : public pub::Message
 	{
 
 	};
 
-	REQUIRE(Message::id<DummyMessageOne>() != Message::id<DummyMessageTwo>());
+	REQUIRE(pub::Message::id<DummyMessageOne>() != pub::Message::id<DummyMessageTwo>());
 }
