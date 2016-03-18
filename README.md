@@ -12,22 +12,25 @@ Example
 #include <PubBus/PubBus.hpp>
 #include <iostream>
 
-class DummyMessage : public pub::Message
+struct DummyMessage : public pub::Message
 {
-
+	int important_value = 0;
 };
 
 int main()
 {
 	pub::MessageBus bus;
 	DummyMessage msg;
+	msg.important_value = 100;
 
-	bool called = false;
+	bus.subscribe<DummyMessage>(
+		[](DummyMessage msg)
+		{
+			std::cout << "Important value: " << msg.important_value << std::endl;
+		}
+	);
 
-	bus.subscribe<DummyMessage>([&called](DummyMessage msg) { called = true; });
 	bus.publish(msg);
-
-	std::cout << (called ? "Yes!" : "No...") << std::endl;
 }
 ```
 
