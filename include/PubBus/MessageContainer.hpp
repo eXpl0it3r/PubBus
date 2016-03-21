@@ -10,9 +10,11 @@ namespace pub
 	class MessageContainer : public MessageContainerBase
 	{
 	public:
-		std::size_t size() const final;
-		void remove(std::size_t index) final;
-		bool validate(std::size_t index) const final;
+		~MessageContainer();
+
+		std::size_t size() const override final;
+		void remove(std::size_t index) override final;
+		bool validate(std::size_t index) const override final;
 
 		std::size_t add(std::function<void(M)> subscriber);
 		void publish(M message);
@@ -21,6 +23,11 @@ namespace pub
 		std::size_t m_index = 0;
 		std::map<std::size_t, std::function<void(M)>> m_subscribers;
 	};
+
+	template <typename M>
+	MessageContainer<M>::~MessageContainer()
+	{
+	}
 
 	template<typename M>
 	std::size_t MessageContainer<M>::size() const
