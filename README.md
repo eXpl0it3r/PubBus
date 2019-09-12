@@ -38,9 +38,10 @@ For Visual Studio I recommend to install the [Test Adapter for Catch2](https://g
 
 ## License
 
-This software is in the public domain. Where that dedication is not
-recognized, you are granted a perpetual, irrevocable license to copy
-and modify these files as you see fit.
+This software is available under 2 licenses -- choose whichever you prefer.
+
+- Public Domain
+- MIT
 
 ## Credits
 
