@@ -1,12 +1,10 @@
-PubBus
-======
+# PubBus
 
 **PubBus** is a simple, header-only implementation of a MessageBus.
 
-Unit tests are written with the Catch test framework.
+Unit tests are written with the [Catch2](https://github.com/catchorg/Catch2) test framework.
 
-Example
--------
+## Example
 
 ```c++
 #include <PubBus/PubBus.hpp>
@@ -26,7 +24,7 @@ int main()
 	bus.subscribe<DummyMessage>(
 		[](DummyMessage msg)
 		{
-			std::cout << "Important value: " << msg.important_value << std::endl;
+			std::cout << "Important value: " << msg.important_value << "\n";
 		}
 	);
 
@@ -34,15 +32,17 @@ int main()
 }
 ```
 
-License
--------
+## Test Execution
+
+For Visual Studio I recommend to install the [Test Adapter for Catch2](https://github.com/JohnnyHendriks/TestAdapter_Catch2) and set it up to use the provided `catch.runsettings`.
+
+## License
 
 This software is in the public domain. Where that dedication is not
 recognized, you are granted a perpetual, irrevocable license to copy
 and modify these files as you see fit.
 
-Credits
--------
+## Credits
 
 * [Message Bus (GDD #3)](http://www.optank.org/2013/04/02/game-development-design-3-message-bus/) by Stefan Schindler
 * [SW Message Bus](http://www.codeproject.com/Articles/723656/SW-Message-Bus) by Evgeny Zavalkovsky
