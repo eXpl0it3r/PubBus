@@ -4,6 +4,8 @@
 
 Unit tests are written with the [Catch2](https://github.com/catchorg/Catch2) test framework.
 
+**Note:** PubBus requires C++17
+
 ## Example
 
 ```c++
@@ -17,8 +19,8 @@ struct DummyMessage : public pub::Message
 
 int main()
 {
-	pub::MessageBus bus;
-	DummyMessage msg;
+	auto bus = pub::MessageBus{};
+	auto msg = DummyMessage{};
 	msg.important_value = 100;
 
 	bus.subscribe<DummyMessage>(

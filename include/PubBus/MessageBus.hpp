@@ -28,8 +28,8 @@ namespace pub
 	SubscriberHandle MessageBus::subscribe(std::function<void(M)> subscriber)
 	{
 		auto repo = m_repository.find(Message::id<M>());
-		bool valid = false;
-		std::size_t index = 0;
+		auto valid = false;
+		auto index = 0;
 
 		if (repo == m_repository.end())
 		{
@@ -47,7 +47,7 @@ namespace pub
 			index = static_cast<MessageContainer<M>*>(repo->second.get())->add(subscriber);
 		}
 
-		return SubscriberHandle(Message::id<M>(), index);
+        return SubscriberHandle{ Message::id<M>(), index };
 	}
 
 	template<typename M>
@@ -67,7 +67,9 @@ namespace pub
 		bool result = false;
 
 		if (handle.id() != Message::id<M>())
+        {
 			return result;
+        }
 
 		auto repo = m_repository.find(Message::id<M>());
 

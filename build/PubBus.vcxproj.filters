@@ -9,6 +9,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{a4e826d9-367c-492b-b018-f4556a020201}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\PubBus\Message.hpp">
@@ -29,5 +32,19 @@
     <ClInclude Include="..\include\PubBus\PubBus.hpp">
       <Filter>Headerfiles</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.gitattributes">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="..\.gitignore">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="..\LICENSE.md">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="..\README.md">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
 </Project>

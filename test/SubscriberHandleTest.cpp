@@ -11,11 +11,11 @@ TEST_CASE("Constructing a SubscriberHandle sets the index and id", "[SubscriberH
 
 	};
 
-	pub::Message::Id id = pub::Message::id<DummyMessage>();
-	std::size_t index = 10;
+	auto id = pub::Message::id<DummyMessage>();
+	auto index = 10;
 
 	// Act
-	pub::SubscriberHandle handle(id, index);
+    auto handle = pub::SubscriberHandle{ id, index };
 
 	// Assert
 	REQUIRE(handle.id() == id);

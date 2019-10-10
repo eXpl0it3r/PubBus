@@ -10,7 +10,7 @@ namespace pub
 	class MessageContainer : public MessageContainerBase
 	{
 	public:
-		~MessageContainer();
+		~MessageContainer() = default;
 
 		std::size_t size() const override final;
 		void remove(std::size_t index) override final;
@@ -24,11 +24,6 @@ namespace pub
 		std::map<std::size_t, std::function<void(M)>> m_subscribers;
 	};
 
-	template <typename M>
-	MessageContainer<M>::~MessageContainer()
-	{
-	}
-
 	template<typename M>
 	std::size_t MessageContainer<M>::size() const
 	{
@@ -38,11 +33,11 @@ namespace pub
 	template<typename M>
 	void MessageContainer<M>::remove(std::size_t index)
 	{
-		auto itr = m_subscribers.find(index);
+		auto iterator = m_subscribers.find(index);
 
-		if (itr != m_subscribers.end())
+		if (iterator != m_subscribers.end())
 		{
-			m_subscribers.erase(itr);
+			m_subscribers.erase(iterator);
 		}
 	}
 
@@ -63,7 +58,9 @@ namespace pub
 	template<typename M>
 	void MessageContainer<M>::publish(M message)
 	{
-		for (auto& subscriber : m_subscribers)
-			subscriber.second(message);
+        for (auto& subscriber : m_subscribers)
+        {
+            subscriber.second(message);
+        }
 	}
 }
