@@ -14,23 +14,23 @@ Unit tests are written with the [Catch2](https://github.com/catchorg/Catch2) tes
 
 struct DummyMessage : public pub::Message
 {
-	int important_value = 0;
+    int important_value = 0;
 };
 
 int main()
 {
-	auto bus = pub::MessageBus{};
-	auto msg = DummyMessage{};
-	msg.important_value = 100;
+    auto bus = pub::MessageBus{};
+    auto msg = DummyMessage{};
+    msg.important_value = 100;
 
-	bus.subscribe<DummyMessage>(
-		[](DummyMessage msg)
-		{
-			std::cout << "Important value: " << msg.important_value << "\n";
-		}
-	);
+    bus.subscribe<DummyMessage>(
+        [](DummyMessage msg)
+        {
+            std::cout << "Important value: " << msg.important_value << "\n";
+        }
+    );
 
-	bus.publish(msg);
+    bus.publish(msg);
 }
 ```
 

@@ -46,5 +46,8 @@
     <None Include="..\README.md">
       <Filter>Documentation</Filter>
     </None>
+    <None Include="..\.editorconfig">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
 </Project>

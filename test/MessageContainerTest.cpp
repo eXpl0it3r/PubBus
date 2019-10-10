@@ -10,112 +10,112 @@ class DummyMessage : public pub::Message
 
 TEST_CASE("Empty container has a size of zero", "[MessageContainer]")
 {
-	// Arrange & Act
+    // Arrange & Act
     auto container = pub::MessageContainer<DummyMessage>{};
 
-	// Assert
-	REQUIRE(container.size() == 0);
+    // Assert
+    REQUIRE(container.size() == 0u);
 }
 
 TEST_CASE("Adding subscribers increases container size", "[MessageContainer]")
 {
-	// Arrange
+    // Arrange
     auto container = pub::MessageContainer<DummyMessage>{};
 
-	// Act
-	container.add([](DummyMessage){});
-	container.add([](DummyMessage){});
+    // Act
+    container.add([](DummyMessage){});
+    container.add([](DummyMessage){});
 
-	// Assert
-	REQUIRE(container.size() == 2);
+    // Assert
+    REQUIRE(container.size() == 2u);
 }
 
 TEST_CASE("Removing a non existing index does nothing", "[MessageContainer]")
 {
-	// Arrange
+    // Arrange
     auto container = pub::MessageContainer<DummyMessage>{};
 
-	// Act
-	container.remove(10);
+    // Act
+    container.remove(10);
 
-	// Assert
-	REQUIRE(container.size() == 0);
+    // Assert
+    REQUIRE(container.size() == 0u);
 }
 
 TEST_CASE("Removing an existing index decreases the size", "[MessageContainer]")
 {
-	// Arrange
+    // Arrange
     auto container = pub::MessageContainer<DummyMessage>{};
 
-	auto index_one = container.add([](DummyMessage){});
-	auto index_two = container.add([](DummyMessage) {});
+    auto index_one = container.add([](DummyMessage){});
+    auto index_two = container.add([](DummyMessage) {});
 
-	// Act
-	container.remove(index_one);
+    // Act
+    container.remove(index_one);
 
-	// Assert
-	REQUIRE(container.size() == 1);
+    // Assert
+    REQUIRE(container.size() == 1u);
 }
 
 TEST_CASE("Validating a non existing index returns false", "[MessageContainer]")
 {
-	// Arrange
+    // Arrange
     auto container = pub::MessageContainer<DummyMessage>{};
 
-	// Act
-	auto index = container.add([](DummyMessage) {});
+    // Act
+    auto index = container.add([](DummyMessage) {});
 
-	// Assert
-	REQUIRE(container.validate(index + 1) == false);
+    // Assert
+    REQUIRE(container.validate(index + 1u) == false);
 }
 
 TEST_CASE("Validating an existing index returns true", "[MessageContainer]")
 {
-	// Arrange
+    // Arrange
     auto container = pub::MessageContainer<DummyMessage>{};
 
-	// Act
-	auto index = container.add([](DummyMessage) {});
+    // Act
+    auto index = container.add([](DummyMessage) {});
 
-	// Assert
-	REQUIRE(container.validate(index) == true);
+    // Assert
+    REQUIRE(container.validate(index) == true);
 }
 
 TEST_CASE("Publishing a message calls the subscriber", "[MessageContainer]")
 {
-	// Arrange
-	auto called = false;
+    // Arrange
+    auto called = false;
     auto container = pub::MessageContainer<DummyMessage>{};
     auto msg = DummyMessage{};
 
-	container.add([&called](DummyMessage) { called = true; });
+    container.add([&called](DummyMessage) { called = true; });
 
-	// Act
-	container.publish(msg);
+    // Act
+    container.publish(msg);
 
-	// Assert
-	REQUIRE(called == true);
+    // Assert
+    REQUIRE(called == true);
 }
 
 TEST_CASE("A subscriber can access a published message", "[MessageContainer]")
 {
-	// Arrange
-	class DummyMessageInteractive : public pub::Message
-	{
-	public:
-		int test = 0;
-	};
+    // Arrange
+    class DummyMessageInteractive : public pub::Message
+    {
+    public:
+        int test = 0;
+    };
 
-	auto called = false;
+    auto called = false;
     auto container = pub::MessageContainer<DummyMessageInteractive>{};
     auto msg = DummyMessageInteractive{};
 
-	msg.test = 10;
-	container.add([&called](DummyMessageInteractive message) { called = (message.test == 10); });
+    msg.test = 10;
+    container.add([&called](DummyMessageInteractive message) { called = (message.test == 10); });
 
-	// Act
-	container.publish(msg);
+    // Act
+    container.publish(msg);
 
-	// Assert
-	REQUIRE(called == true);
+    // Assert
+    REQUIRE(called == true);
 }
