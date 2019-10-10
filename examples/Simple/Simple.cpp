@@ -8,14 +8,14 @@ struct DummyMessage : public pub::Message
 
 int main()
 {
-	pub::MessageBus bus;
-	DummyMessage msg;
+    auto bus = pub::MessageBus{};
+    auto msg = DummyMessage{};
 	msg.important_value = 100;
 
 	bus.subscribe<DummyMessage>(
 		[](DummyMessage msg)
 		{
-			std::cout << "Important value: " << msg.important_value << std::endl;
+			std::cout << "Important value: " << msg.important_value << "\n";
 		}
 	);
 

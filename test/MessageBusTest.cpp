@@ -10,10 +10,10 @@ TEST_CASE("Adding subscriber returns a valid SubscriberHandle", "[MessageBus]")
 
 	};
 
-	pub::MessageBus bus;
+    auto bus = pub::MessageBus{};
 
 	// Act
-	pub::SubscriberHandle handle = bus.subscribe<DummyMessage>([](DummyMessage msg) {});
+	auto handle = bus.subscribe<DummyMessage>([](DummyMessage msg) {});
 
 	// Assert
 	REQUIRE(bus.validate<DummyMessage>(handle) == true);
@@ -32,11 +32,11 @@ TEST_CASE("Adding different message subscribers returns valid handles", "[Messag
 
 	};
 
-	pub::MessageBus bus;
+    auto bus = pub::MessageBus{};
 
 	// Act
-	pub::SubscriberHandle handle_one = bus.subscribe<DummyMessageOne>([](DummyMessageOne msg) {});
-	pub::SubscriberHandle handle_two = bus.subscribe<DummyMessageTwo>([](DummyMessageTwo msg) {});
+	auto handle_one = bus.subscribe<DummyMessageOne>([](DummyMessageOne msg) {});
+	auto handle_two = bus.subscribe<DummyMessageTwo>([](DummyMessageTwo msg) {});
 
 	// Assert
 	REQUIRE(bus.validate<DummyMessageOne>(handle_one) == true);
@@ -56,11 +56,11 @@ TEST_CASE("Validating subscribers for different messages returns false", "[Messa
 
 	};
 
-	pub::MessageBus bus;
+    auto bus = pub::MessageBus{};
 
 	// Act
-	pub::SubscriberHandle handle_one = bus.subscribe<DummyMessageOne>([](DummyMessageOne msg) {});
-	pub::SubscriberHandle handle_two = bus.subscribe<DummyMessageTwo>([](DummyMessageTwo msg) {});
+	auto handle_one = bus.subscribe<DummyMessageOne>([](DummyMessageOne msg) {});
+	auto handle_two = bus.subscribe<DummyMessageTwo>([](DummyMessageTwo msg) {});
 
 	// Assert
 	REQUIRE(bus.validate<DummyMessageOne>(handle_two) == false);
@@ -75,9 +75,9 @@ TEST_CASE("Publishing message calls subscriber", "[MessageBus]")
 
 	};
 
-	bool called = false;
-	pub::MessageBus bus;
-	DummyMessage msg;
+	auto called = false;
+    auto bus = pub::MessageBus{};
+    auto msg = DummyMessage{};
 
 	bus.subscribe<DummyMessage>([&called](DummyMessage msg) { called = true; });
 

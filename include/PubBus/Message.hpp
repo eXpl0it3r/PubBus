@@ -18,6 +18,6 @@ namespace pub
 	template<typename T>
 	Message::Id Message::id()
 	{
-		return std::type_index(typeid(T));
+        return std::type_index{ typeid(T) };
 	}
 }
