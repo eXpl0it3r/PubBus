@@ -5,19 +5,19 @@
 
 TEST_CASE("Constructing a SubscriberHandle sets the index and id", "[SubscriberHandle]")
 {
-	// Arrange
-	class DummyMessage : public pub::Message
-	{
+    // Arrange
+    class DummyMessage : public pub::Message
+    {
 
-	};
+    };
 
-	auto id = pub::Message::id<DummyMessage>();
-	auto index = 10;
+    auto id = pub::Message::id<DummyMessage>();
+    auto index = 10u;
 
-	// Act
+    // Act
     auto handle = pub::SubscriberHandle{ id, index };
 
-	// Assert
-	REQUIRE(handle.id() == id);
-	REQUIRE(handle.index() == index);
+    // Assert
+    REQUIRE(handle.id() == id);
+    REQUIRE(handle.index() == index);
 }

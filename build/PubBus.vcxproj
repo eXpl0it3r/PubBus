@@ -137,6 +137,7 @@
     <ClInclude Include="..\include\PubBus\SubscriberHandle.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig" />
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
     <None Include="..\LICENSE.md" />
