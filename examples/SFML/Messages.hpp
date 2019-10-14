@@ -7,74 +7,100 @@
 
 struct WindowMessage : public pub::Message
 {
-	enum Type {Closed, LostFocus, GainedFocus};
-	
-	WindowMessage(Type type) : type(type)
-	{}
+    enum Type
+    {
+        Closed,
+        LostFocus,
+        GainedFocus
+    };
 
-	Type type;
+    WindowMessage(const Type type)
+        : type{ type }
+    {}
+
+    Type type;
 };
 
 struct SizeMessage : public pub::Message
 {
-	SizeMessage(sf::Vector2u size) : size(size)
-	{}
+    SizeMessage(const sf::Vector2u size)
+        : size{ size }
+    {}
 
-	sf::Vector2u size;
+    sf::Vector2u size;
 };
 
 struct KeyMessage : public pub::Message
 {
-	enum Type {Pressed, Release};
+    enum Type
+    {
+        Pressed,
+        Released
+    };
 
-	KeyMessage(Type type, sf::Keyboard::Key, bool alt, bool control, bool shift, bool system)
-	: type(type), code(code), alt(alt), control(control), system(system)
-	{}
+    KeyMessage(const Type type, const sf::Keyboard::Key code, const bool alt, const bool control, const bool shift, const bool system)
+        : type{ type }
+        , code{ code }
+        , alt{ alt }
+        , control{ control }
+        , shift{ shift }
+        , system{ system }
+    {}
 
-	Type type;
-	sf::Keyboard::Key code;
-	bool alt;
-	bool control;
-	bool shift;
-	bool system;
+    Type type;
+    sf::Keyboard::Key code;
+    bool alt;
+    bool control;
+    bool shift;
+    bool system;
 };
 
 struct TextMessage : public pub::Message
 {
-	TextMessage(sf::Uint32 unicode) : unicode(unicode)
-	{}
+    TextMessage(const sf::Uint32 unicode)
+        : unicode{ unicode }
+    {}
 
-	sf::Uint32 unicode;
+    sf::Uint32 unicode;
 };
 
 struct MouseMoveMessage : public pub::Message
 {
-	MouseMoveMessage(sf::Vector2i position) : position(position)
-	{}
+    MouseMoveMessage(const sf::Vector2i position)
+        : position{ position }
+    {}
 
-	sf::Vector2i position;
+    sf::Vector2i position;
 };
 
 struct MouseButtonMessage : public pub::Message
 {
-	enum Type {Pressed, Release};
+    enum Type
+    {
+        Pressed,
+        Released
+    };
 
-	MouseButtonMessage(Type type, sf::Mouse::Button button, sf::Vector2i position)
-	: type(type), button(button), position(position)
-	{}
+    MouseButtonMessage(const Type type, const sf::Mouse::Button button, const sf::Vector2i position)
+        : type{ type }
+        , button{ button }
+        , position{ position }
+    {}
 
-	Type type;
-	sf::Mouse::Button button;
-	sf::Vector2i position;
+    Type type;
+    sf::Mouse::Button button;
+    sf::Vector2i position;
 };
 
 struct MouseWheelScrollMessage : public pub::Message
 {
-	MouseWheelScrollMessage(sf::Mouse::Wheel wheel, float delta, sf::Vector2i position)
-	: wheel(wheel), delta(delta), position(position)
-	{}
+    MouseWheelScrollMessage(const sf::Mouse::Wheel wheel, const float delta, const sf::Vector2i position)
+        : wheel{ wheel }
+        , delta{ delta }
+        , position{ position }
+    {}
 
-	sf::Mouse::Wheel wheel;
-	float delta;
-	sf::Vector2i position;
+    sf::Mouse::Wheel wheel;
+    float delta;
+    sf::Vector2i position;
 };
