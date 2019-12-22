@@ -15,6 +15,7 @@ namespace pub
     public:
         template<typename M>
         SubscriberHandle subscribe(std::function<void(M)> subscriber);
+        void unsubscribe(SubscriberHandle& subscriber_handle);
         template<typename M>
         void publish(M message);
         template<typename M>
@@ -48,6 +49,16 @@ namespace pub
         }
 
         return SubscriberHandle{ Message::id<M>(), index };
+    }
+
+    inline void MessageBus::unsubscribe(SubscriberHandle& subscriber_handle)
+    {
+        auto repo = m_repository.find(subscriber_handle.id());
+
+        if (repo != m_repository.end())
+        {
+            repo->second->remove(subscriber_handle.index());
+        }
     }
 
     template<typename M>
