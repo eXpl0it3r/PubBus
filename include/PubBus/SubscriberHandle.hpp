@@ -10,15 +10,15 @@ namespace pub
     public:
         SubscriberHandle(Message::Id id, std::size_t index);
 
-        Message::Id id() const;
-        std::size_t index() const;
+        [[nodiscard]] Message::Id id() const;
+        [[nodiscard]] std::size_t index() const;
 
     private:
         Message::Id m_id;
         std::size_t m_index;
     };
 
-    inline SubscriberHandle::SubscriberHandle(Message::Id id, std::size_t index)
+    inline SubscriberHandle::SubscriberHandle(const Message::Id id, const std::size_t index)
         : m_id(id)
         , m_index(index)
     {

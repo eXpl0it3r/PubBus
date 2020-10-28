@@ -19,7 +19,7 @@ namespace pub
         template<typename M>
         void publish(M message);
         template<typename M>
-        bool validate(SubscriberHandle handle) const;
+        [[nodiscard]] bool validate(SubscriberHandle handle) const;
 
     private:
         std::map<Message::Id, std::unique_ptr<MessageContainerBase>> m_repository;
@@ -29,7 +29,7 @@ namespace pub
     SubscriberHandle MessageBus::subscribe(std::function<void(M)> subscriber)
     {
         auto repo = m_repository.find(Message::id<M>());
-        auto valid = false;
+        auto valid = true;
         auto index = std::size_t{ 0u };
 
         if (repo == m_repository.end())
@@ -37,10 +37,6 @@ namespace pub
             auto result = m_repository.insert({ Message::id<M>(), std::make_unique<MessageContainer<M>>() });
             valid = result.second;
             repo = result.first;
-        }
-        else
-        {
-            valid = true;
         }
 
         if (valid)
@@ -75,7 +71,7 @@ namespace pub
     template<typename M>
     bool MessageBus::validate(SubscriberHandle handle) const
     {
-        bool result = false;
+        auto result = false;
 
         if (handle.id() != Message::id<M>())
         {

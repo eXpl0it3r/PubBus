@@ -1,16 +1,13 @@
 #pragma once
 
-#include <typeinfo>
 #include <typeindex>
 
 namespace pub
 {
-    class Message
+    struct Message
     {
-    public:
         using Id = std::type_index;
 
-    public:
         template<typename T>
         static Id id();
     };

@@ -6,7 +6,7 @@
 TEST_CASE("Constructing a SubscriberHandle sets the index and id", "[SubscriberHandle]")
 {
     // Arrange
-    class DummyMessage : public pub::Message
+    struct DummyMessage : pub::Message
     {
 
     };

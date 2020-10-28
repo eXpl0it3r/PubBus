@@ -3,7 +3,7 @@
 #include<PubBus/Message.hpp>
 #include<PubBus/MessageContainer.hpp>
 
-class DummyMessage : public pub::Message
+struct DummyMessage : pub::Message
 {
 
 };
@@ -47,8 +47,8 @@ TEST_CASE("Removing an existing index decreases the size", "[MessageContainer]")
     // Arrange
     auto container = pub::MessageContainer<DummyMessage>{};
 
-    auto index_one = container.add([](DummyMessage){});
-    auto index_two = container.add([](DummyMessage) {});
+    const auto index_one = container.add([](DummyMessage){});
+    container.add([](DummyMessage) {});
 
     // Act
     container.remove(index_one);
@@ -86,12 +86,12 @@ TEST_CASE("Publishing a message calls the subscriber", "[MessageContainer]")
     // Arrange
     auto called = false;
     auto container = pub::MessageContainer<DummyMessage>{};
-    auto msg = DummyMessage{};
+    const auto message = DummyMessage{};
 
     container.add([&called](DummyMessage) { called = true; });
 
     // Act
-    container.publish(msg);
+    container.publish(message);
 
     // Assert
     REQUIRE(called == true);
@@ -100,21 +100,19 @@ TEST_CASE("Publishing a message calls the subscriber", "[MessageContainer]")
 TEST_CASE("A subscriber can access a published message", "[MessageContainer]")
 {
     // Arrange
-    class DummyMessageInteractive : public pub::Message
+    struct DummyMessageInteractive : pub::Message
     {
-    public:
         int test = 0;
     };
 
     auto called = false;
     auto container = pub::MessageContainer<DummyMessageInteractive>{};
-    auto msg = DummyMessageInteractive{};
+    const auto message = DummyMessageInteractive{ .test = 10 };
 
-    msg.test = 10;
-    container.add([&called](DummyMessageInteractive message) { called = (message.test == 10); });
+    container.add([&called](const DummyMessageInteractive message) { called = (message.test == 10); });
 
     // Act
-    container.publish(msg);
+    container.publish(message);
 
     // Assert
     REQUIRE(called == true);

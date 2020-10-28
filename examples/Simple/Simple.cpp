@@ -1,7 +1,7 @@
 #include <PubBus/PubBus.hpp>
 #include <iostream>
 
-struct DummyMessage : public pub::Message
+struct DummyMessage : pub::Message
 {
     int important_value = 0;
 };
@@ -9,15 +9,14 @@ struct DummyMessage : public pub::Message
 int main()
 {
     auto bus = pub::MessageBus{};
-    auto msg = DummyMessage{};
-    msg.important_value = 100;
+    const auto message = DummyMessage{ .important_value = 100 };
 
     bus.subscribe<DummyMessage>(
-        [](DummyMessage msg)
+        [](const DummyMessage message)
         {
-            std::cout << "Important value: " << msg.important_value << "\n";
+            std::cout << "Important value: " << message.important_value << "\n";
         }
     );
 
-    bus.publish(msg);
+    bus.publish(message);
 }

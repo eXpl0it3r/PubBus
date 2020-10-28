@@ -5,7 +5,7 @@
 TEST_CASE("Adding subscriber returns a valid SubscriberHandle", "[MessageBus]")
 {
     // Arrange
-    class DummyMessage : public pub::Message
+    struct DummyMessage : pub::Message
     {
     };
 
@@ -21,15 +21,13 @@ TEST_CASE("Adding subscriber returns a valid SubscriberHandle", "[MessageBus]")
 TEST_CASE("Publishing message hands message to subscriber", "[MessageBus]")
 {
     // Arrange
-    class DummyMessage : public pub::Message
+    struct DummyMessage : pub::Message
     {
-    public:
         int data;
     };
 
     auto bus = pub::MessageBus{};
-    auto message = DummyMessage{};
-    message.data = 10;
+    const auto message = DummyMessage{ .data = 10 };
 
     // Assert
     bus.subscribe<DummyMessage>([](DummyMessage message)
@@ -44,11 +42,11 @@ TEST_CASE("Publishing message hands message to subscriber", "[MessageBus]")
 TEST_CASE("Adding different message subscribers returns valid handles", "[MessageBus]")
 {
     // Arrange
-    class DummyMessageOne : public pub::Message
+    struct DummyMessageOne : pub::Message
     {
     };
 
-    class DummyMessageTwo : public pub::Message
+    struct DummyMessageTwo : pub::Message
     {
     };
 
@@ -66,11 +64,11 @@ TEST_CASE("Adding different message subscribers returns valid handles", "[Messag
 TEST_CASE("Validating subscribers for different messages returns false", "[MessageBus]")
 {
     // Arrange
-    class DummyMessageOne : public pub::Message
+    struct DummyMessageOne : pub::Message
     {
     };
 
-    class DummyMessageTwo : public pub::Message
+    struct DummyMessageTwo : pub::Message
     {
     };
 
@@ -88,7 +86,7 @@ TEST_CASE("Validating subscribers for different messages returns false", "[Messa
 TEST_CASE("Publishing message calls subscriber", "[MessageBus]")
 {
     // Arrange
-    class DummyMessage : public pub::Message
+    struct DummyMessage : pub::Message
     {
     };
 
@@ -108,7 +106,7 @@ TEST_CASE("Publishing message calls subscriber", "[MessageBus]")
 TEST_CASE("Unsubscribing stops triggering calls", "[MessageBus]")
 {
     // Arrange
-    class DummyMessage : public pub::Message
+    struct DummyMessage : pub::Message
     {
     };
 
@@ -129,7 +127,7 @@ TEST_CASE("Unsubscribing stops triggering calls", "[MessageBus]")
 TEST_CASE("Multiple subscribers - publishing message - all subscribers are notified", "[MessageBus]")
 {
     // Arrange
-    class DummyMessage : public pub::Message
+    struct DummyMessage : pub::Message
     {
     };
 
@@ -153,7 +151,7 @@ TEST_CASE("Multiple subscribers - publishing message - all subscribers are notif
 TEST_CASE("Multiple subscribers - unsubscribing one - all other subscribers are still notified", "[MessageBus]")
 {
     // Arrange
-    class DummyMessage : public pub::Message
+    struct DummyMessage : pub::Message
     {
     };
 

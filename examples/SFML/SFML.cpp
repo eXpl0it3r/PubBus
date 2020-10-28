@@ -31,7 +31,7 @@ public:
     }
 
 private:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override final
+    void draw(sf::RenderTarget& target, const sf::RenderStates states) const override final
     {
         target.draw(m_text, states);
     }
@@ -55,18 +55,18 @@ public:
 
     void onKeyEvent(const KeyMessage& message)
     {
-        const auto type = message.type == KeyMessage::Pressed ? "Pressed"s : "Released"s;
+        const auto type = message.type == KeyMessage::Type::Pressed ? "Pressed"s : "Released"s;
         m_text.setString(type + ": " + std::to_string(message.code));
     }
 
     void onMouseEvent(const MouseButtonMessage& message)
     {
-        const auto type = message.type == MouseButtonMessage::Pressed ? "Pressed"s : "Released"s;
+        const auto type = message.type == MouseButtonMessage::Type::Pressed ? "Pressed"s : "Released"s;
         m_text.setString(type + ": " + std::to_string(message.button));
     }
 
 private:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override final
+    void draw(sf::RenderTarget& target, const sf::RenderStates states) const override final
     {
         target.draw(m_text, states);
     }
@@ -98,7 +98,7 @@ int main()
 
     bus.subscribe<WindowMessage>([&window](const WindowMessage& message)
     {
-        if (message.type == WindowMessage::Closed)
+        if (message.type == WindowMessage::Type::Closed)
         {
             window.close();
         }
@@ -115,42 +115,48 @@ int main()
             switch (event.type)
             {
             case sf::Event::Closed:
-                bus.publish<WindowMessage>({ WindowMessage::Closed });
+                bus.publish(WindowMessage{ .type = WindowMessage::Type::Closed });
                 break;
             case sf::Event::Resized:
-                bus.publish<SizeMessage>({ { event.size.width, event.size.height } });
+                bus.publish(SizeMessage{ .size = { event.size.width, event.size.height } });
                 break;
             case sf::Event::LostFocus:
             case sf::Event::GainedFocus:
-                bus.publish<WindowMessage>({ event.type == sf::Event::LostFocus ? WindowMessage::LostFocus : WindowMessage::GainedFocus });
+                bus.publish(WindowMessage{
+                    .type = event.type == sf::Event::LostFocus ? WindowMessage::Type::LostFocus : WindowMessage::Type::GainedFocus
+                });
                 break;
             case sf::Event::MouseMoved:
-                bus.publish<MouseMoveMessage>({ { event.mouseMove.x, event.mouseMove.y } });
+                bus.publish(MouseMoveMessage{ .position = { event.mouseMove.x, event.mouseMove.y } });
                 break;
             case sf::Event::KeyPressed:
             case sf::Event::KeyReleased:
-                bus.publish<KeyMessage>({
-                    event.type == sf::Event::KeyPressed ? KeyMessage::Pressed : KeyMessage::Released,
-                    event.key.code,
-                    event.key.alt,
-                    event.key.control,
-                    event.key.shift,
-                    event.key.system
+                bus.publish(KeyMessage{
+                    .type = event.type == sf::Event::KeyPressed ? KeyMessage::Type::Pressed : KeyMessage::Type::Released,
+                    .code = event.key.code,
+                    .alt = event.key.alt,
+                    .control = event.key.control,
+                    .shift = event.key.shift,
+                    .system = event.key.system
                 });
                 break;
             case sf::Event::MouseButtonPressed:
             case sf::Event::MouseButtonReleased:
-                bus.publish<MouseButtonMessage>({
-                    event.type == sf::Event::MouseButtonPressed ? MouseButtonMessage::Pressed : MouseButtonMessage::Released,
-                    event.mouseButton.button,
-                    { event.mouseButton.x, event.mouseButton.y }
+                bus.publish(MouseButtonMessage{
+                    .type = event.type == sf::Event::MouseButtonPressed ? MouseButtonMessage::Type::Pressed : MouseButtonMessage::Type::Released,
+                    .button = event.mouseButton.button,
+                    .position = { event.mouseButton.x, event.mouseButton.y }
                 });
                 break;
             case sf::Event::MouseWheelScrolled:
-                bus.publish<MouseWheelScrollMessage>({ event.mouseWheelScroll.wheel, event.mouseWheelScroll.delta, { event.mouseWheelScroll.x, event.mouseWheelScroll.y } });
+                bus.publish(MouseWheelScrollMessage{
+                    .wheel = event.mouseWheelScroll.wheel,
+                    .delta = event.mouseWheelScroll.delta,
+                    .position = { event.mouseWheelScroll.x, event.mouseWheelScroll.y }
+                });
                 break;
             case sf::Event::TextEntered:
-                bus.publish<TextMessage>({ event.text.unicode });
+                bus.publish(TextMessage{ .unicode = event.text.unicode });
                 break;
             default:
                 break;

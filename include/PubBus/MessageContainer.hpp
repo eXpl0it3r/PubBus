@@ -7,14 +7,19 @@
 namespace pub
 {
     template<typename M>
-    class MessageContainer : public MessageContainerBase
+    class MessageContainer final : public MessageContainerBase
     {
     public:
+        MessageContainer() = default;
+        MessageContainer(MessageContainer&&) = default;
+        MessageContainer(const MessageContainer&) = default;
+        MessageContainer& operator =(MessageContainer&&) = default;
+        MessageContainer& operator =(const MessageContainer&) = default;
         ~MessageContainer() = default;
 
-        std::size_t size() const override final;
+        [[nodiscard]] std::size_t size() const override final;
         void remove(std::size_t index) override final;
-        bool validate(std::size_t index) const override final;
+        [[nodiscard]] bool validate(std::size_t index) const override final;
 
         std::size_t add(std::function<void(M)> subscriber);
         void publish(M message);
