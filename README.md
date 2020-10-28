@@ -49,3 +49,4 @@ This software is available under 2 licenses -- choose whichever you prefer.
 * [Message Bus (GDD #3)](http://www.optank.org/2013/04/02/game-development-design-3-message-bus/) by Stefan Schindler
 * [SW Message Bus](http://www.codeproject.com/Articles/723656/SW-Message-Bus) by Evgeny Zavalkovsky
 * [Catch C++ Test Framework](https://github.com/philsquared/Catch) by Phil Nash
+* [Arne Mertz](https://twitter.com/arne_mertz/status/710815232168476672)
