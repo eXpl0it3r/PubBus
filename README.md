@@ -35,7 +35,9 @@ int main()
 
 ## Test Execution
 
-For Visual Studio I recommend to install the [Test Adapter for Catch2](https://github.com/JohnnyHendriks/TestAdapter_Catch2) and set it up to use the provided `catch.runsettings`.
+For Visual Studio I recommend installing the [Test Adapter for Catch2](https://github.com/JohnnyHendriks/TestAdapter_Catch2) and set it up to use the provided `catch.runsettings`.
+
+For CMake/CTest you can run: `ctest <build-dir>/test -S Release`
 
 ## License
 
