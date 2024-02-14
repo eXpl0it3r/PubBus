@@ -12,7 +12,7 @@ int main()
     const auto message = DummyMessage{ .important_value = 100 };
 
     bus.subscribe<DummyMessage>(
-        [](const DummyMessage message)
+        [](const DummyMessage& message)
         {
             std::cout << "Important value: " << message.important_value << "\n";
         }
