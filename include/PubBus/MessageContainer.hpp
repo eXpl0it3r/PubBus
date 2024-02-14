@@ -21,12 +21,12 @@ namespace pub
         void remove(std::size_t index) override final;
         [[nodiscard]] bool validate(std::size_t index) const override final;
 
-        std::size_t add(std::function<void(M)> subscriber);
-        void publish(M message);
+        std::size_t add(std::function<void(const M&)> subscriber);
+        void publish(const M& message);
 
     private:
         std::size_t m_index = 0;
-        std::map<std::size_t, std::function<void(M)>> m_subscribers;
+        std::map<std::size_t, std::function<void(const M&)>> m_subscribers;
     };
 
     template<typename M>
@@ -53,7 +53,7 @@ namespace pub
     }
 
     template<typename M>
-    std::size_t MessageContainer<M>::add(std::function<void(M)> subscriber)
+    std::size_t MessageContainer<M>::add(std::function<void(const M&)> subscriber)
     {
         m_subscribers.insert({ m_index, subscriber });
         ++m_index;
@@ -61,7 +61,7 @@ namespace pub
     }
 
     template<typename M>
-    void MessageContainer<M>::publish(M message)
+    void MessageContainer<M>::publish(const M& message)
     {
         for (auto& subscriber : m_subscribers)
         {

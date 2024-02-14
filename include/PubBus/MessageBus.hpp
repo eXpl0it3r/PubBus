@@ -14,10 +14,10 @@ namespace pub
     {
     public:
         template<typename M>
-        SubscriberHandle subscribe(std::function<void(M)> subscriber);
+        SubscriberHandle subscribe(std::function<void(const M&)> subscriber);
         void unsubscribe(SubscriberHandle& subscriber_handle);
         template<typename M>
-        void publish(M message);
+        void publish(const M& message);
         template<typename M>
         [[nodiscard]] bool validate(SubscriberHandle handle) const;
 
@@ -26,7 +26,7 @@ namespace pub
     };
 
     template<typename M>
-    SubscriberHandle MessageBus::subscribe(std::function<void(M)> subscriber)
+    SubscriberHandle MessageBus::subscribe(std::function<void(const M&)> subscriber)
     {
         auto repo = m_repository.find(Message::id<M>());
         auto valid = true;
@@ -58,7 +58,7 @@ namespace pub
     }
 
     template<typename M>
-    void MessageBus::publish(M message)
+    void MessageBus::publish(const M& message)
     {
         auto repo = m_repository.find(Message::id<M>());
 
