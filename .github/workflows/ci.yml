@@ -11,24 +11,36 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-        - { name: Windows VS2019, os: windows-latest }
-        - { name: Linux GCC,      os: ubuntu-latest  }
-        - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: MacOS XCode,    os: macos-latest   }
+        - { name: Windows VS2022, os: windows-2022 }
+        - { name: Linux GCC,      os: ubuntu-22.04 }
+        - { name: Linux Clang,    os: ubuntu-22.04, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
+        - { name: macOS x64,      os: macos-14, flags: -DCMAKE_OSX_ARCHITECTURES=x86_64 }
+        - { name: macOS M1,       os: macos-14, flags: -DCMAKE_OSX_ARCHITECTURES=arm64 }
 
     steps:
     - name: PubBus - Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: SFML - Install Linux Dependencies
       if: runner.os == 'Linux'
       run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libgl1-mesa-dev libegl1-mesa-dev
 
+    # Workaround for incompatible clang and libstc++ versions, see
+    # <https://github.com/actions/runner-images/issues/8659> for more info.
+    # The basic idea here is to remove g++ 13 and its C++ standard library
+    # and replace that with a compatible version of libstdc++.
+    - name: Workaround for GitHub Actions runner image issue
+      if: matrix.platform.name == 'Linux Clang'
+      run: |
+        sudo apt-get purge -y g++-13 gcc-13 libstdc++-13-dev
+        sudo apt-get install -y --allow-downgrades libstdc++-12-dev libstdc++6=12.* libgcc-s1=12.*
+
     - name: SFML - Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: SFML/SFML
         path: SFML
+        ref: 2.6.x
 
     - name: SFML - Configure CMake
       shell: bash
@@ -40,7 +52,7 @@ jobs:
 
     - name: PubBus - Configure CMake
       shell: bash
-      run: cmake -S $GITHUB_WORKSPACE -B $GITHUB_WORKSPACE/build -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install -DSFML_DIR=$GITHUB_WORKSPACE/SFML/install/lib/cmake/SFML -DPUBBUS_INSTALL_EXAMPLE=ON -DCMAKE_VERBOSE_MAKEFILE=ON  ${{matrix.platform.flags}}
+      run: cmake -S $GITHUB_WORKSPACE -B $GITHUB_WORKSPACE/build -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install -DSFML_DIR=$GITHUB_WORKSPACE/SFML/install/lib/cmake/SFML -DPUBBUS_INSTALL_EXAMPLE=ON -DCMAKE_VERBOSE_MAKEFILE=ON ${{matrix.platform.flags}}
 
     - name: PubBus - Build
       shell: bash

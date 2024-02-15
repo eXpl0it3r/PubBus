@@ -1,4 +1,4 @@
-find_package(SFML 2.5 COMPONENTS graphics REQUIRED)
+find_package(SFML 2.6 COMPONENTS graphics REQUIRED)
 
 add_executable(SFML "SFML.cpp" "Messages.hpp")
 
